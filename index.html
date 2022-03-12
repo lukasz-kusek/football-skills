@@ -12,10 +12,17 @@
         border-radius: 2px;
         overflow: hidden;
     }
-
     </style>
 </head>
 <body>
+<div class="input-group mb-3">
+    <span class="input-group-text">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+          <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+        </svg>
+    </span>
+    <input type="text" class="form-control" id="filter">
+</div>
 <table class="table">
     <thead>
     <tr>
@@ -246,5 +253,28 @@
     </tr>
     </tbody>
 </table>
+<script type="text/javascript">
+    console.log("Starting");
+    const filterInput = document.querySelector("#filter")
+    filterInput.addEventListener("keyup", () => {
+        const filterValue = filterInput.value.toLowerCase();
+        if (filterValue.length > 0) {
+            document.querySelector("tbody").querySelectorAll("tr").forEach(row => {
+                const contains = Array.from(row.querySelectorAll("td"))
+                    .map(cell => cell.textContent.toLowerCase().includes(filterValue))
+                    .filter(includes => includes);
+                if (contains.length > 0) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        } else {
+            document.querySelector("tbody").querySelectorAll("tr").forEach(row => {
+                row.style.display = '';
+            });
+        }
+    });
+</script>
 </body>
 </html>
